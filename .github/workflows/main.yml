@@ -34,6 +34,11 @@ jobs:
 
     - name: Install dependencies
       run: npm install
+      
+    - name: Setup Chrome
+      uses: browser-actions/setup-chrome@v1
+      with:
+        chrome-version: 120
 
     - name: Start Web Server and run test
       run: npm start & npm test
