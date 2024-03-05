@@ -22,7 +22,9 @@ jobs:
       run: npm install
 
     - name: Start application
-      run: node server.js 
+      run: |
+        node server.js &
+        sleep 5 # give server some time to start
 
     - name: Run tests
       run: npm test
