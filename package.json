@@ -2,7 +2,7 @@
   "name": "greeting-app",
   "version": "1.0.0",
   "description": "",
-  "main": "greetingApp.js",
+  "main": "frontend/greetingApp.js",
   "scripts": {
     "test": "cd test && node test.spec.js",
     "start": "node server.js"
