@@ -1,9 +1,14 @@
 name: Run Selenium Tests
 
-on: [push]
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
 
     strategy:
@@ -21,15 +26,21 @@ jobs:
     - name: Install dependencies
       run: npm install
 
-    - name: Install Chromedriver
-      run: npm install chromedriver --chromedriver_version=LATEST
-      
-    - name: Install system dependencies
-      run: |
-        sudo apt -y update 
-        sudo apt -y install google-chrome-stable  
-        
+    - name: Setup ChromeDriver
+      uses: nanasess/setup-chromedriver@v2
+      with:
+        chromedriver-version: '88.0.4324.96'
 
-    - name: Start application & run tests
+    - name: Start Xvfb
       run: |
-        npm start & npm test
+        sudo apt-get install -y xvfb
+        export DISPLAY=:99
+        Xvfb :99 &
+
+    - name: Start Web Server
+      run: |
+        npm start &
+        sleep 5 # give Web server some time to bind to sockets, etc
+
+    - name: Run Selenium Tests
+      run: npx mocha test/test.spec.js
