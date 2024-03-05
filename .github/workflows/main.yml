@@ -22,18 +22,14 @@ jobs:
       run: npm install
 
     - name: Install Chromedriver
+      run: npm install chromedriver --chromedriver_version=LATEST
+      
+    - name: Install system dependencies
       run: |
-        wget -N https://chromedriver.storage.googleapis.com/91.0.4472.101/chromedriver_linux64.zip
-        unzip chromedriver_linux64.zip
-        chmod +x chromedriver
-        sudo mv -f chromedriver /usr/local/share/chromedriver
-        sudo ln -s /usr/local/share/chromedriver /usr/local/bin/chromedriver
+        sudo apt -y update 
+        sudo apt -y install google-chrome-stable  
         
 
-    - name: Start application
+    - name: Start application & run tests
       run: |
-        node server.js &
-        sleep 5 # give server some time to start
-
-    - name: Run tests
-      run: npm test
+        npm start & npm test
